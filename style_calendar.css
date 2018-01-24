@@ -1,0 +1,59 @@
+
+
+table.month {
+border: 1px solid black;
+border-collapse: collapse;
+}
+
+table.month td, table.month th {
+width: 14%;
+vertical-align: top;
+}
+table.month td {
+border-width: 5px 1px 5px 1px;
+}
+
+
+table.month td.sat, table.month td.sun {
+background-color: rgb(245, 245, 185);
+}
+
+
+table.month td a#today {
+display: inline-block;
+width: 80%;
+height: 2ex;
+background-color: rgb(245, 245, 85);
+}
+
+
+table.month .calitem {
+display: block;
+border: 1px solid black;
+margin: 2px;
+background-color: rgb(235,235,255);
+}
+
+table.month .allday {
+border: none;
+}
+
+table.month .caltime {
+font-size: smaller;
+}
+
+table.month .alldayseparator {
+display: block;
+height: 0.5ex;
+}
+
+
+
+table.month .calsrcqmul {
+background-color: rgb(235,235,255);
+}
+table.month .calsrchome {
+background-color: rgb(255,235,165);
+}
+
+

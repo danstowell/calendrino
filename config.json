@@ -1,0 +1,16 @@
+{
+"ical_input_files": {
+	"calsrcqmul": "~/git/stored_docs/cal/QMUL.ics",
+	"calsrchome": "~/git/stored_docs/cal/Home.ics"
+},
+
+"html_output_file": "rendered.html",
+
+"sleepdur": 10,
+
+"view_days_before": 180,
+"view_days_after":  180,
+
+"verbose": true
+}
+
