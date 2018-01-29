@@ -86,7 +86,7 @@ def expand_event(event):
 	"expands recurring events into each individual instance"
 	if 'RRULE' in event:
 		event_start = event['DTSTART'].dt
-		dtdelta = event_start - event['DTEND'].dt
+		dtdelta =  event['DTEND'].dt - event_start
 		tz = getattr(event_start, 'tzinfo', None)
 		if isinstance(event_start, datetime):
 			event_start = event_start.replace(tzinfo=None)
