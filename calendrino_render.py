@@ -107,8 +107,8 @@ def expand_event(event):
 				newev['DTSTART'].dt = event_dt_start.replace(tzinfo=tz)
 				newev['DTEND'  ].dt = (event_dt_start + dtdelta).replace(tzinfo=tz)
 			else:
-				newev['DTSTART'].dt = event_dt_start
-				newev['DTEND'  ].dt = event_dt_start + dtdelta
+				newev['DTSTART'].dt = event_dt_start.date()
+				newev['DTEND'  ].dt = event_dt_start.date() + dtdelta
 
 			yield newev
 	else:
