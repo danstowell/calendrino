@@ -159,6 +159,7 @@ def parse_ical_str(icalstr, calsrcclass=''):
 						evdata = {
 							'summary': summary,
 							'location': anev.get('location'),
+							'description': anev.get('description'),
 							'hasprev': oneday != evstart[0],
 							'haspost': oneday != evend[0],
 							'calsrcclass': calsrcclass
@@ -197,8 +198,15 @@ def mergecaldatas(percaldata):
 # then we walk the months we're going to render and call a subclass formatter, writing the results to a html output file. the subclass formatter will output little boxes for each of the items in a day's piles.
 
 def _makeitemtooltip(item):
+	toshow = []
+
 	if item['location']:
-		return " title='%s'" % escape(item['location'], quote=True)
+		toshow.append(item['location'])
+	if item['description']:
+		toshow.append(item['description'])
+
+	if len(toshow):
+		return " title='%s'" % escape("\n\n".join(toshow), quote=True)
 	return ''
 
 def render_caldata_html(data):
