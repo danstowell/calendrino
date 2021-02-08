@@ -23,7 +23,7 @@ import os
 import calendar
 import icalendar
 import json
-from datetime import date, time, datetime, timedelta
+from datetime import date, time, datetime, timedelta, timezone
 from operator import itemgetter
 from cgi import escape
 import hashlib
@@ -38,6 +38,7 @@ from extendedhtmlcalendar import ExtendedHTMLCalendar
 
 config = json.load(open("config.json"))
 verbose = config['verbose']
+localtz = timezone(timedelta(hours=config.get("timezone_utc_hours_offset", 0)))
 
 with open('template.html', 'r', encoding='utf-8') as myfile:
 	htmltemplate = myfile.read().split("{{calendar}}")
@@ -49,6 +50,7 @@ addoneday = timedelta(days = 1) # instantiated here, used later
 
 def _unpack_date_time(dt):
 	if isinstance(dt, datetime):
+		dt = dt.astimezone(localtz)  # here we convert to the desired timezone for render
 		return (dt.date(), dt.time())
 	elif isinstance(dt, date):
 		return (dt, None)

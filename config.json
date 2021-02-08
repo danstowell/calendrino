@@ -1,7 +1,8 @@
 {
 "ical_input_files": {
 	"calsrcqmul": "~/git/stored_docs/cal/QMUL.ics",
-	"calsrchome": "~/git/stored_docs/cal/Home.ics"
+	"calsrchome": "~/git/stored_docs/cal/Home.ics",
+	"calsrcnl":   "~/git/stored_docs/cal/NL.ics"
 },
 
 "html_output_file": "rendered.html",
@@ -10,6 +11,8 @@
 
 "view_days_before": 180,
 "view_days_after":  180,
+
+"timezone_utc_hours_offset": 1,
 
 "verbose": true
 }
