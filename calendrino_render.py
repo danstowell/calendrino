@@ -25,7 +25,7 @@ import icalendar
 import json
 from datetime import date, time, datetime, timedelta, timezone
 from operator import itemgetter
-from cgi import escape
+from html import escape
 import hashlib
 from time import sleep
 from dateutil import rrule
