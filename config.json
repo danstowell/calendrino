@@ -2,7 +2,9 @@
 "ical_input_files": {
 	"calsrcqmul": "~/git/stored_docs/cal/QMUL.ics",
 	"calsrchome": "~/git/stored_docs/cal/Home.ics",
-	"calsrcnl":   "~/git/stored_docs/cal/NL.ics"
+	"calsrcnl":   "~/git/stored_docs/cal/NL.ics",
+	"calsrcnlg":   "~/git/stored_docs/cal/NLg.ics",
+	"calsrcnatg":   "~/git/stored_docs/cal/NatG.ics"
 },
 
 "html_output_file": "rendered.html",
