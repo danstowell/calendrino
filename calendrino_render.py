@@ -24,6 +24,7 @@ import calendar
 import icalendar
 import json
 from datetime import date, time, datetime, timedelta, timezone
+import pytz
 from operator import itemgetter
 from html import escape
 import hashlib
@@ -38,7 +39,7 @@ from extendedhtmlcalendar import ExtendedHTMLCalendar
 
 config = json.load(open("config.json"))
 verbose = config['verbose']
-localtz = timezone(timedelta(hours=config.get("timezone_utc_hours_offset", 0)))
+localtz = pytz.timezone(config.get("timezone", "Europe/Amsterdam"))
 
 with open('template.html', 'r', encoding='utf-8') as myfile:
 	htmltemplate = myfile.read().split("{{calendar}}")
@@ -106,8 +107,8 @@ def expand_event(event):
 
 			newev = deepcopy(event)
 			if isinstance(newev['DTSTART'].dt, datetime):
-				newev['DTSTART'].dt = event_dt_start.replace(tzinfo=tz)
-				newev['DTEND'  ].dt = (event_dt_start + dtdelta).replace(tzinfo=tz)
+				newev['DTSTART'].dt = localtz.localize(event_dt_start)
+				newev['DTEND'  ].dt = localtz.localize((event_dt_start + dtdelta))
 			else:
 				newev['DTSTART'].dt = event_dt_start.date()
 				newev['DTEND'  ].dt = event_dt_start.date() + dtdelta

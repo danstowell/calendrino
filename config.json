@@ -14,7 +14,7 @@
 "view_days_before": 180,
 "view_days_after":  180,
 
-"timezone_utc_hours_offset": 1,
+"timezone": "Europe/Amsterdam",
 
 "verbose": true
 }
