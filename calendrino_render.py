@@ -85,12 +85,14 @@ def get_recurrence_lines(event):
 				value = values.to_ical().decode('utf-8')
 				yield "%s:%s" % (rl, value)
 
-def expand_event(event):
+def expand_event(event, verbose=False):
 	"expands recurring events into each individual instance"
 	if 'RRULE' in event:
 		event_start = event['DTSTART'].dt
 		dtdelta =  event['DTEND'].dt - event_start
 		tz = getattr(event_start, 'tzinfo', None)
+		if verbose:
+			print("    expand_event(): tz is %s --- %s" % (tz, tz.__class__))
 		if isinstance(event_start, datetime):
 			event_start = event_start.replace(tzinfo=None)
 
@@ -113,6 +115,8 @@ def expand_event(event):
 				newev['DTSTART'].dt = event_dt_start.date()
 				newev['DTEND'  ].dt = event_dt_start.date() + dtdelta
 
+			if verbose:
+				print(getattr(newev['DTSTART'].dt, 'tzinfo'))
 			yield newev
 	else:
 		yield event
@@ -126,9 +130,19 @@ def parse_ical_str(icalstr, calsrcclass=''):
 	for component in acal.walk():
 		if component.name == "VEVENT":
 
-			#for anev in [component]:
-			for anev in expand_event(component): # expands recurring events into each individual instance
+			verbose = False
+			if False: #"CSAI deep" in str(component.get('summary')):
+				verbose = True
+			if verbose:
+				print("verbosely summary:%s" % component.get('summary'))
+				print("verbosely dtstart:%s" % component.get('dtstart').dt)
 
+			#for anev in [component]:
+			for anev in expand_event(component, verbose): # expands recurring events into each individual instance
+				if verbose:
+					print("")
+					print("  verbosely summary: %s" % anev.get('summary'))
+					print("  verbosely dtstart: %s" % anev.get('dtstart').dt)
 				dtstart = anev.get('dtstart').dt
 				dtend   = anev.get('dtend'  ).dt
 
@@ -137,6 +151,8 @@ def parse_ical_str(icalstr, calsrcclass=''):
 				alldayer = evend[1] is None
 				if alldayer:
 					evend = (evend[0] - addoneday, evend[1]) # because all-day events in ical format have the last day _ex_clusively
+				if verbose:
+					print("  verbosely time unpacked: %s" % (evstart,)) #.tzid)
 
 				# check both the beginning and end date - only if they're both on the same-side of our range will we skip the event
 				stst = cmp(evstart[0], startdate)
