@@ -109,8 +109,8 @@ def expand_event(event, verbose=False):
 
 			newev = deepcopy(event)
 			if isinstance(newev['DTSTART'].dt, datetime):
-				newev['DTSTART'].dt = localtz.localize(event_dt_start)
-				newev['DTEND'  ].dt = localtz.localize((event_dt_start + dtdelta))
+				newev['DTSTART'].dt = tz.localize(event_dt_start)
+				newev['DTEND'  ].dt = tz.localize(event_dt_start + dtdelta)
 			else:
 				newev['DTSTART'].dt = event_dt_start.date()
 				newev['DTEND'  ].dt = event_dt_start.date() + dtdelta
