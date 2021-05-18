@@ -135,7 +135,7 @@ def parse_ical_str(icalstr, calsrcclass=''):
 		if component.name == "VEVENT":
 
 			verbose = False
-			if True: #"CSAI deep" in str(component.get('summary')):
+			if False: #"CSAI deep" in str(component.get('summary')):
 				verbose = True
 			if verbose:
 				print("verbosely summary:%s" % component.get('summary'))
@@ -144,7 +144,6 @@ def parse_ical_str(icalstr, calsrcclass=''):
 			if component.get('X-MOZ-FAKED-MASTER', 0)=="1":
 				continue
 
-                        #for anev in [component]:
 			for anev in expand_event(component, verbose): # expands recurring events into each individual instance
 				if verbose:
 					print("")
