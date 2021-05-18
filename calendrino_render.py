@@ -50,6 +50,8 @@ assert len(htmltemplate)==2, "HTML template must contain exactly one instance of
 addoneday = timedelta(days = 1) # instantiated here, used later
 
 def _unpack_date_time(dt):
+	#if dt is None:
+	#	return (None, None)
 	if isinstance(dt, datetime):
 		dt = dt.astimezone(localtz)  # here we convert to the desired timezone for render
 		return (dt.date(), dt.time())
@@ -116,7 +118,9 @@ def expand_event(event, verbose=False):
 				newev['DTEND'  ].dt = event_dt_start.date() + dtdelta
 
 			if verbose:
-				print(getattr(newev['DTSTART'].dt, 'tzinfo'))
+				newstart = newev['DTSTART'].dt
+				if isinstance(newstart, datetime):
+					print(getattr(newstart, 'tzinfo'))
 			yield newev
 	else:
 		yield event
@@ -131,13 +135,16 @@ def parse_ical_str(icalstr, calsrcclass=''):
 		if component.name == "VEVENT":
 
 			verbose = False
-			if False: #"CSAI deep" in str(component.get('summary')):
+			if True: #"CSAI deep" in str(component.get('summary')):
 				verbose = True
 			if verbose:
 				print("verbosely summary:%s" % component.get('summary'))
 				print("verbosely dtstart:%s" % component.get('dtstart').dt)
 
-			#for anev in [component]:
+			if component.get('X-MOZ-FAKED-MASTER', 0)=="1":
+				continue
+
+                        #for anev in [component]:
 			for anev in expand_event(component, verbose): # expands recurring events into each individual instance
 				if verbose:
 					print("")
@@ -149,7 +156,7 @@ def parse_ical_str(icalstr, calsrcclass=''):
 				evstart = _unpack_date_time(dtstart)
 				evend   = _unpack_date_time(dtend)
 				alldayer = evend[1] is None
-				if alldayer:
+				if alldayer and (evend[0] is not None):
 					evend = (evend[0] - addoneday, evend[1]) # because all-day events in ical format have the last day _ex_clusively
 				if verbose:
 					print("  verbosely time unpacked: %s" % (evstart,)) #.tzid)
