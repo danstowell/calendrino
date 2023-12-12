@@ -93,6 +93,8 @@ def expand_event(event, verbose=False):
 		event_start = event['DTSTART'].dt
 		dtdelta =  event['DTEND'].dt - event_start
 		tz = getattr(event_start, 'tzinfo', None)
+		if not tz:
+		    tz = localtz
 		if verbose:
 			print("    expand_event(): tz is %s --- %s" % (tz, tz.__class__))
 		if isinstance(event_start, datetime):
