@@ -25,6 +25,7 @@ import icalendar
 import json
 from datetime import date, time, datetime, timedelta, timezone
 import pytz
+from zoneinfo import ZoneInfo
 from operator import itemgetter
 from html import escape
 import hashlib
@@ -93,6 +94,10 @@ def expand_event(event, verbose=False):
 		event_start = event['DTSTART'].dt
 		dtdelta =  event['DTEND'].dt - event_start
 		tz = getattr(event_start, 'tzinfo', None)
+		if isinstance(tz, ZoneInfo):
+			# This handles the behaviour change seen in 2026 ubuntu upgrade:
+			# tz no longer a pytz.tzfile but a zoneinfo.ZoneInfo!
+			tz = pytz.timezone(tz.key)
 		if verbose:
 			print("    expand_event(): tz is %s --- %s" % (tz, tz.__class__))
 		if isinstance(event_start, datetime):
